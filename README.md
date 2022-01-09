@@ -10,9 +10,9 @@
   
 برای خواندن ورودی با فرمت جی‌سان میتوانید از لینک های زیر استفاده کنید. ( برای اطلاعات بیشتر حتما در مورد جی سان سرچ کنید.)
 
-+ [خواندن و نوشتن با فرمت جیسان در جاوا ](https://www.baeldung.com/jackson-object-mapper-tutorial)
-+ [خواندن و نوشتن با فرمت جیسان در پایتون ](https://www.geeksforgeeks.org/read-json-file-using-python/)
-+ [خواندن و نوشتن با فرمت جیسان در سی پلاس پلاس ](https://linuxhint.com/parse-json-data-cpp/)
++[خواندن و نوشتن با فرمت جیسان در جاوا ](https://www.baeldung.com/jackson-object-mapper-tutorial)
++[خواندن و نوشتن با فرمت جیسان در پایتون ](https://www.geeksforgeeks.org/read-json-file-using-python/)
++[خواندن و نوشتن با فرمت جیسان در سی پلاس پلاس ](https://linuxhint.com/parse-json-data-cpp/)
 
   دقت کنید که این دیتاست ورودی داده شده تستی است و تعداد آن کم است. برای ارائه دیتاست بزرگتری که صحت و کیفیت برنامه شما چک شود.
   
