@@ -25,8 +25,7 @@ class Graph:
         self.graph = defaultdict(list)
 
     def addEdge(self, u, v):
-        for id in v:
-            self.graph[u].append(int(id))
+        self.graph[u] = v
 
     def BFS(self, s):
         h = s
@@ -86,7 +85,7 @@ def show(user1, p):
           f"[{user1.workplace}] Specialities: {user1.specialities} Connection Ids: {user1.connectionId}")
 
 
-def find_connection(users, id):
+def find_connection(users, id ,g):
     if id in users:
         user1 = users[id]
         connections = g.BFS(int(id))
@@ -108,6 +107,18 @@ Enter a number between 0 and 10
         for p in range(len(list)):
             if p < 20:
                 show(list[p][1], p)
+
+        do2 = input("do you want connect anyone?(y/n)")
+        if do2 == "y":
+            a = int(input("how many? "))
+            for i in range(a):
+                id = int(input("Enter id: "))
+                if str(id) in users:
+                    user1.connectionId.append(id)
+                    g.graph[id].append(int(user1.id))
+            g.graph[int(user1.id)] = user1.connectionId
+            print("connection finished")
+
     else:
         print("there isn't any account with this id in linkedin")
 
@@ -145,12 +156,12 @@ def register(users, g):
         register_findConnection(user2, users)
         print("how many?")
         for i in range(int(input())):
-            connections1.append(input("Enter id: "))
+            connections1.append(int(input("Enter id: ")))
 
         user2.connectionId = connections1
 
         for i in user2.connectionId:
-                g.graph[int(i)].append(int(user2.id))
+                g.graph[i].append(int(user2.id))
         g.addEdge(int(user2.id), user2.connectionId)
         users[user2.id] = user2
         print("account created")
@@ -158,29 +169,39 @@ def register(users, g):
         print("there is another account with this id")
 
 if __name__ == '__main__':
+    try:
+        with open("users2.json", 'r') as file:
+            file_data = json.load(file)
 
-    with open("users.json", 'r') as file:
-        file_data = json.load(file)
+        users = {p["id"]: user(p["id"], p["name"], p["dateOfBirth"], p["universityLocation"], p["field"], p["workplace"],
+                               p["specialties"], list(map(int, p["connectionId"]))) for p in file_data}
 
-    users = {p["id"]: user(p["id"], p["name"], p["dateOfBirth"], p["universityLocation"], p["field"], p["workplace"],
-                           p["specialties"], p["connectionId"]) for p in file_data}
+        g = Graph()
+        for p in users:
+            g.addEdge(int(users[p].id), users[p].connectionId)
 
-    g = Graph()
-    for p in users:
-        g.addEdge(int(users[p].id), users[p].connectionId)
-
-    print("welcome to my linkedin")
-    user1 = None
-    while True:
-        print("""      
+        print("welcome to my linkedin")
+        user1 = None
+        while True:
+            print("""      
 what do you want to do?
 1) see the list of connections
 2) register an connect
-            """)
-        do = input()
-        if do == "1":
-            id = input("Enter id: ")
-            find_connection(users, id)
-
-        elif do == "2":
-            register(users, g)
+3) save in file
+                """)
+            do = input()
+            if do == "1":
+                id = input("Enter id: ")
+                find_connection(users, id, g)
+            elif do == "2":
+                register(users, g)
+            elif do =="3":
+                list1 = []
+                dict1 = {}
+                for p in users:
+                    dict1 = {"id": users[p].id, "name": users[p].name, "dateOfBirth": users[p].dateOfBirth, "universityLocation": users[p].universityLocation, "field": users[p].field, "workPlace": users[p].specialities, "connectionId" : users[p].connectionId}
+                    list1.append(dict1)
+                with open("sample.json", "w") as outfile:
+                    json.dump(list1, outfile)
+    except Exception:
+        print("")
